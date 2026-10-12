@@ -9,6 +9,17 @@
   "item": [
     {
       "name": "Healthcheck",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -20,15 +31,994 @@
           "path": [
             "ping"
           ]
-        }
+        },
+        "description": "Verifica que la aplicación esté funcionando."
       },
-      "response": []
+      "response": [
+        {
+          "name": "Healthcheck",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/ping",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "ping"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:00 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "23"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"status\": \"ok\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Reset",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists/reset",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists",
+            "reset"
+          ]
+        },
+        "description": "Reinicia la base de datos, es decir, borra todas las filas de la tabla _blacklist_."
+      },
+      "response": [
+        {
+          "name": "Reset",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists/reset",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists",
+                "reset"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:10 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "58"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Lista negra reiniciada\",\n  \"deleted\": 2\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);\r\n"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Añade un email válido a la lista negra."
+      },
+      "response": [
+        {
+          "name": "Añadir email",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "CREATED",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:17 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "75"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"El email yvonne73@gmail.com fue agregado a la lista negra\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email sin blocked_reason",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const previous_email = pm.collectionVariables.get(\"POST_EMAIL\");\r\n\r\nlet email;\r\n\r\ndo {\r\n    email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n} while (email == previous_email);\r\n\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Añade un email sin blocked_reason, lo cual es posible dado que este campo no es obligatorio."
+      },
+      "response": [
+        {
+          "name": "Añadir email sin blocked_reason",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "CREATED",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:22 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "77"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"El email everardo47@gmail.com fue agregado a la lista negra\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email repetido",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta añadir un email agregado previamente, lo cual retorna error."
+      },
+      "response": [
+        {
+          "name": "Añadir email repetido",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "CONFLICT",
+          "code": 409,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:28 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "78"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"El email everardo47@gmail.com ya está en la lista negra\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email sin email",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"email is part of errors\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.errors).to.have.property(\"email\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta añadir un email sin email, lo cual retorna error al ser un campo obligatorio."
+      },
+      "response": [
+        {
+          "name": "Añadir email sin email",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "BAD REQUEST",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:34 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "137"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Datos inválidos\",\n  \"errors\": {\n    \"email\": [\n      \"Missing data for required field.\"\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email sin app_uuid",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);\r\n"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"app_uuid is part of errors\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.errors).to.have.property(\"app_uuid\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta añadir un email sin app_uuid, lo cual retorna error al ser un campo obligatorio."
+      },
+      "response": [
+        {
+          "name": "Añadir email sin app_uuid",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "BAD REQUEST",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:39 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "140"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Datos inválidos\",\n  \"errors\": {\n    \"app_uuid\": [\n      \"Missing data for required field.\"\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email con datos inválidos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"fields are part of errors\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.errors).to.have.property(\"email\");\r\n    pm.expect(body.errors).to.have.property(\"app_uuid\");\r\n    pm.expect(body.errors).to.have.property(\"blocked_reason\");\r\n});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase().replace(\"@\", \"_at_\");\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}').slice(0, 30);\r\nlet blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\nwhile (blockedReason.length <= 255) {\r\n    blockedReason += \" \" + pm.variables.replaceIn('{{$randomPhrase}}');\r\n}\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta hacer una petición con datos inválidos (i.e., el email no tiene el formato de correo, app_uuid no es UUID, y blocked_reason no es una cadena de caracteres)."
+      },
+      "response": [
+        {
+          "name": "Añadir email con datos inválidos",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "BAD REQUEST",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:44 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "281"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Datos inválidos\",\n  \"errors\": {\n    \"email\": [\n      \"Not a valid email address.\"\n    ],\n    \"app_uuid\": [\n      \"Not a valid UUID.\"\n    ],\n    \"blocked_reason\": [\n      \"Longer than maximum length 255.\"\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email sin formato json",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta hacer una petición sin un json, lo cual retorna error."
+      },
+      "response": [
+        {
+          "name": "Añadir email sin formato json",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "BAD REQUEST",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:50 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "57"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"El cuerpo de la solicitud debe ser JSON\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Añadir email sin token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists"
+          ]
+        },
+        "description": "Intenta añadir un email sin tener el token de autenticación."
+      },
+      "response": [
+        {
+          "name": "Añadir email sin token",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists"
+              ]
+            }
+          },
+          "status": "UNAUTHORIZED",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "Werkzeug/3.1.9 Python/3.13.6"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 12 Oct 2026 04:26:57 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "44"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Missing Authorization Header\"\n}"
+        }
+      ]
     }
   ],
   "variable": [
     {
       "key": "BASE_URL",
       "value": "localhost:5000"
+    },
+    {
+      "key": "bearer_token",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc5MTc3NjAzOCwianRpIjoiOTU2MGMyNmItYTMxNC00YWYxLWIyMmItZDAzYjMyYjI4ZjVjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImJsYWNrbGlzdC1jbGllbnQiLCJuYmYiOjE3OTE3NzYwMzgsImNzcmYiOiI3ZDkyZDJkMC1hMzJiLTRkYzQtOGFiYi1iNTk1M2EzM2UzZDcifQ.JK5TZzqdrjJ602Nl8hb9W6Rt1LjDLvgba-evUCAShGI"
+    },
+    {
+      "key": "POST_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "POST_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "POST_BLOCKED_REASON",
+      "value": ""
     }
   ]
 }
