@@ -36,3 +36,10 @@ class BlacklistResource(Resource):
         db.session.commit()
 
         return {"msg": f"El email {email} fue agregado a la lista negra"}, 201
+
+class BlacklistResetResource(Resource):
+    #@jwt_required()
+    def post(self):
+        deleted = Blacklist.query.delete()
+        db.session.commit()
+        return {"msg": "Lista negra reiniciada", "deleted": deleted}, 200

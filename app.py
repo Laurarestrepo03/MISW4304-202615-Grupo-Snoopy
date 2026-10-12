@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_jwt_extended import create_access_token
 from flask_restful import Api, Resource
@@ -6,7 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
 from extensions import db, jwt, ma
 from models import Blacklist
-from resources import BlacklistResource
+from resources import BlacklistResource, BlacklistResetResource
 
 class Health(Resource):
     def get(self):
@@ -23,6 +25,9 @@ jwt.init_app(app)
 api = Api(app)
 api.add_resource(Health, "/ping")
 api.add_resource(BlacklistResource, "/blacklists")
+
+if os.getenv("ENABLE_RESET", "false").lower() == "true":
+    api.add_resource(BlacklistResetResource, "/blacklists/reset")
 
 with app.app_context():
     db.create_all()

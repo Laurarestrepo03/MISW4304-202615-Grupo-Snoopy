@@ -1,1 +1,1 @@
-from .blacklist import BlacklistResource
+from .blacklist import BlacklistResource, BlacklistResetResource
