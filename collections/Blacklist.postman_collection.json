@@ -1,10 +1,9 @@
 {
   "info": {
-    "_postman_id": "9f30bb87-fec2-4331-b384-950b000036d3",
+    "_postman_id": "56141b1a-e8fd-4679-9d2b-7e771506766a",
     "name": "Blacklist",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "17535481",
-    "_collection_link": "https://go.postman.co/collection/17535481-9f30bb87-fec2-4331-b384-950b000036d3?source=collection_link"
+    "_exporter_id": "49310364"
   },
   "item": [
     {
@@ -172,7 +171,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n"
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.collectionVariables.set(\"BLACKLISTED_EMAIL\", pm.collectionVariables.get(\"POST_EMAIL\"));\r\npm.collectionVariables.set(\"BLACKLISTED_REASON\", pm.collectionVariables.get(\"POST_BLOCKED_REASON\"));\r\n"
             ]
           }
         }
@@ -997,6 +996,134 @@
           "body": "{\n  \"msg\": \"Missing Authorization Header\"\n}"
         }
       ]
+    },
+    {
+      "name": "Consultar email bloqueado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Email está en la lista negra\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.is_blacklisted).to.eql(true);\r\n    pm.expect(body.blocked_reason).to.eql(pm.collectionVariables.get(\"BLACKLISTED_REASON\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists/{{BLACKLISTED_EMAIL}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists",
+            "{{BLACKLISTED_EMAIL}}"
+          ]
+        },
+        "description": "Consulta un email que fue agregado a la lista negra en \"Añadir email\"."
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar email no bloqueado",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n\r\npm.collectionVariables.set(\"NO_BLOCKED_EMAIL\", email);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Email no está en la lista negra\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.is_blacklisted).to.eql(false);\r\n    pm.expect(body.blocked_reason).to.eql(null);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearer_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists/{{NO_BLOCKED_EMAIL}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists",
+            "{{NO_BLOCKED_EMAIL}}"
+          ]
+        },
+        "description": "Consulta un email aleatorio que no está en la lista negra."
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar email sin token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n\r\npm.collectionVariables.set(\"GET_EMAIL\", email);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/blacklists/{{NO_BLOCKED_EMAIL}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "blacklists",
+            "{{NO_BLOCKED_EMAIL}}"
+          ]
+        },
+        "description": "Intenta consultar un email sin tener el token de autenticación."
+      },
+      "response": []
     }
   ],
   "variable": [
@@ -1006,7 +1133,7 @@
     },
     {
       "key": "bearer_token",
-      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc5MTc3NjAzOCwianRpIjoiOTU2MGMyNmItYTMxNC00YWYxLWIyMmItZDAzYjMyYjI4ZjVjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImJsYWNrbGlzdC1jbGllbnQiLCJuYmYiOjE3OTE3NzYwMzgsImNzcmYiOiI3ZDkyZDJkMC1hMzJiLTRkYzQtOGFiYi1iNTk1M2EzM2UzZDcifQ.JK5TZzqdrjJ602Nl8hb9W6Rt1LjDLvgba-evUCAShGI"
+      "secret": true
     },
     {
       "key": "POST_EMAIL",
@@ -1018,6 +1145,18 @@
     },
     {
       "key": "POST_BLOCKED_REASON",
+      "value": ""
+    },
+    {
+      "key": "BLACKLISTED_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "BLACKLISTED_REASON",
+      "value": ""
+    },
+    {
+      "key": "NO_BLOCKED_EMAIL",
       "value": ""
     }
   ]
