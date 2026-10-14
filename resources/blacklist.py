@@ -1,4 +1,4 @@
-from flask import request 
+from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from marshmallow import ValidationError
@@ -8,6 +8,7 @@ from models import Blacklist
 from schemas import BlacklistCreateSchema
 
 create_schema = BlacklistCreateSchema()
+
 
 class BlacklistResource(Resource):
     @jwt_required()
@@ -37,8 +38,21 @@ class BlacklistResource(Resource):
 
         return {"msg": f"El email {email} fue agregado a la lista negra"}, 201
 
+
+class BlacklistEmailResource(Resource):
+    @jwt_required()
+    def get(self, email):
+        email = email.lower()
+        entry = Blacklist.query.filter_by(email=email).first()
+
+        if entry is None:
+            return {"is_blacklisted": False, "blocked_reason": None}, 200
+
+        return {"is_blacklisted": True, "blocked_reason": entry.blocked_reason}, 200
+
+
 class BlacklistResetResource(Resource):
-    #@jwt_required()
+    # @jwt_required()
     def post(self):
         deleted = Blacklist.query.delete()
         db.session.commit()

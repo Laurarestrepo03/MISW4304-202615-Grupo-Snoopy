@@ -1,1 +1,1 @@
-from .blacklist import BlacklistResource, BlacklistResetResource
+from .blacklist import BlacklistEmailResource, BlacklistResource, BlacklistResetResource

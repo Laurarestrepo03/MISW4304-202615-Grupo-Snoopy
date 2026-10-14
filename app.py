@@ -7,12 +7,13 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from extensions import db, jwt, ma
-from models import Blacklist
-from resources import BlacklistResource, BlacklistResetResource
+from resources import BlacklistEmailResource, BlacklistResource, BlacklistResetResource
+
 
 class Health(Resource):
     def get(self):
         return {"status": "ok"}, 200
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,6 +26,7 @@ jwt.init_app(app)
 api = Api(app)
 api.add_resource(Health, "/ping")
 api.add_resource(BlacklistResource, "/blacklists")
+api.add_resource(BlacklistEmailResource, "/blacklists/<string:email>")
 
 if os.getenv("ENABLE_RESET", "false").lower() == "true":
     api.add_resource(BlacklistResetResource, "/blacklists/reset")
@@ -32,9 +34,11 @@ if os.getenv("ENABLE_RESET", "false").lower() == "true":
 with app.app_context():
     db.create_all()
 
+
 @app.cli.command("generate-token")
 def generate_token():
     print(create_access_token(identity="blacklist-client"))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
