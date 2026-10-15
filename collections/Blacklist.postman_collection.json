@@ -1112,13 +1112,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{BASE_URL}}/blacklists/{{NO_BLOCKED_EMAIL}}",
+          "raw": "{{BASE_URL}}/blacklists/{{GET_EMAIL}}",
           "host": [
             "{{BASE_URL}}"
           ],
           "path": [
             "blacklists",
-            "{{NO_BLOCKED_EMAIL}}"
+            "{{GET_EMAIL}}"
           ]
         },
         "description": "Intenta consultar un email sin tener el token de autenticación."
