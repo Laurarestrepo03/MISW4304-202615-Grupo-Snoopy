@@ -10,9 +10,24 @@ from extensions import db, jwt, ma
 from resources import BlacklistEmailResource, BlacklistResource, BlacklistResetResource
 
 
+def get_app_version():
+    """APP_VERSION env var if set, otherwise the VERSION file shipped with the code."""
+    env_version = os.getenv("APP_VERSION")
+    if env_version:
+        return env_version
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "VERSION")) as f:
+            return f.read().strip() or "unknown"
+    except OSError:
+        return "unknown"
+
+
+APP_VERSION = get_app_version()
+
+
 class Health(Resource):
     def get(self):
-        return {"status": "ok"}, 200
+        return {"status": "ok", "version": APP_VERSION}, 200
 
 
 app = Flask(__name__)
