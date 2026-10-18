@@ -1,3 +1,5 @@
+# <img height="30" src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"> MISW4304-202615-Grupo-Snoopy
+
 ## Ejecución de la aplicación
 
 ### 1. Crear ambiente virtual
