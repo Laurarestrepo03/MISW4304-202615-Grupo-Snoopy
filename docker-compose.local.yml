@@ -1,0 +1,30 @@
+services:
+  blacklist-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blacklist-app
+    restart: unless-stopped
+    command:
+      [
+        "gunicorn",
+        "--bind",
+        "0.0.0.0:5000",
+        "--workers",
+        "1",
+        "--reload",
+        "app:app",
+      ]
+    environment:
+      DB_HOST: ${DB_HOST:?DB_HOST must be set in .env (RDS endpoint)}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:?DB_NAME must be set in .env}
+      DB_USER: ${DB_USER:?DB_USER must be set in .env}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env}
+      DB_SSLMODE: ${DB_SSLMODE:-require}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-local-dev-secret-change-me-32-bytes-min}
+      ENABLE_RESET: "true"
+    volumes:
+      - .:/app
+    ports:
+      - "${APP_PORT:-5000}:5000"
