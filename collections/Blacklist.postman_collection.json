@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "56141b1a-e8fd-4679-9d2b-7e771506766a",
+    "_postman_id": "4e4da2fa-fa83-484c-9dd5-3f45028eeada",
     "name": "Blacklist",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "49310364"
+    "_exporter_id": "17535481",
+    "_collection_link": "https://go.postman.co/collection/17535481-4e4da2fa-fa83-484c-9dd5-3f45028eeada?source=collection_link"
   },
   "item": [
     {
@@ -54,12 +55,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:00 GMT"
+              "value": "Sun, 18 Oct 2026 20:40:18 GMT"
             },
             {
               "key": "content-type",
@@ -67,15 +64,19 @@
             },
             {
               "key": "content-length",
-              "value": "23"
+              "value": "37"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"status\": \"ok\"\n}"
+          "body": "{\n  \"status\": \"ok\",\n  \"version\": \"1.2.0\"\n}"
         }
       ]
     },
@@ -162,7 +163,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);\r\n"
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"ADD_EMAIL_EMAIL\", email);\r\npm.collectionVariables.set(\"ADD_EMAIL_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"ADD_EMAIL_BLOCKED_REASON\", blockedReason);\r\n\r\n"
             ]
           }
         },
@@ -171,7 +172,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.collectionVariables.set(\"BLACKLISTED_EMAIL\", pm.collectionVariables.get(\"POST_EMAIL\"));\r\npm.collectionVariables.set(\"BLACKLISTED_REASON\", pm.collectionVariables.get(\"POST_BLOCKED_REASON\"));\r\n"
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.collectionVariables.set(\"BLACKLISTED_EMAIL\", pm.collectionVariables.get(\"ADD_EMAIL_EMAIL\"));\r\npm.collectionVariables.set(\"BLACKLISTED_REASON\", pm.collectionVariables.get(\"ADD_EMAIL_BLOCKED_REASON\"));\r\n"
             ]
           }
         }
@@ -191,7 +192,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{ADD_EMAIL_EMAIL}}\",\r\n  \"app_uuid\": \"{{ADD_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{ADD_EMAIL_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -217,7 +218,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{ADD_EMAIL_EMAIL}}\",\r\n  \"app_uuid\": \"{{ADD_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{ADD_EMAIL_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -239,12 +240,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:17 GMT"
+              "value": "Sun, 18 Oct 2026 21:24:27 GMT"
             },
             {
               "key": "content-type",
@@ -252,15 +249,19 @@
             },
             {
               "key": "content-length",
-              "value": "75"
+              "value": "80"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"msg\": \"El email yvonne73@gmail.com fue agregado a la lista negra\"\n}"
+          "body": "{\n  \"msg\": \"El email garfield.mccullough@yahoo.com fue agregado a la lista negra\"\n}"
         }
       ]
     },
@@ -272,7 +273,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const previous_email = pm.collectionVariables.get(\"POST_EMAIL\");\r\n\r\nlet email;\r\n\r\ndo {\r\n    email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n} while (email == previous_email);\r\n\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);"
+              "const previous_email = pm.collectionVariables.get(\"ADD_EMAIL_EMAIL\");\r\n\r\nlet email;\r\n\r\ndo {\r\n    email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n} while (email == previous_email);\r\n\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\n\r\npm.collectionVariables.set(\"NO_BLOCKED_REASON_EMAIL\", email);\r\npm.collectionVariables.set(\"NO_BLOCKED_REASON_APP_UUID\", appUuid);"
             ]
           }
         },
@@ -301,7 +302,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{NO_BLOCKED_REASON_EMAIL}}\",\r\n  \"app_uuid\": \"{{NO_BLOCKED_REASON_APP_UUID}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -327,7 +328,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{NO_BLOCKED_REASON_EMAIL}}\",\r\n  \"app_uuid\": \"{{NO_BLOCKED_REASON_APP_UUID}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -349,12 +350,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:22 GMT"
+              "value": "Sun, 18 Oct 2026 21:29:54 GMT"
             },
             {
               "key": "content-type",
@@ -362,15 +359,19 @@
             },
             {
               "key": "content-length",
-              "value": "77"
+              "value": "72"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"msg\": \"El email everardo47@gmail.com fue agregado a la lista negra\"\n}"
+          "body": "{\n  \"msg\": \"El email mozelle94@hotmail.com fue agregado a la lista negra\"\n}"
         }
       ]
     },
@@ -382,7 +383,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"REPEATED_EMAIL_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"REPEATED_EMAIL_BLOCKED_REASON\", blockedReason);"
             ]
           }
         },
@@ -411,7 +412,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{ADD_EMAIL_EMAIL}}\",\r\n  \"app_uuid\": \"{{REPEATED_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{REPEATED_EMAIL_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -437,7 +438,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{ADD_EMAIL_EMAIL}}\",\r\n  \"app_uuid\": \"{{REPEATED_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{REPEATED_EMAIL_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -459,12 +460,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:28 GMT"
+              "value": "Sun, 18 Oct 2026 21:31:26 GMT"
             },
             {
               "key": "content-type",
@@ -472,15 +469,19 @@
             },
             {
               "key": "content-length",
-              "value": "78"
+              "value": "81"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
-          "body": "{\n  \"msg\": \"El email everardo47@gmail.com ya está en la lista negra\"\n}"
+          "body": "{\n  \"msg\": \"El email garfield.mccullough@yahoo.com ya está en la lista negra\"\n}"
         }
       ]
     },
@@ -492,7 +493,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+              "const appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"NO_EMAIL_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"NO_EMAIL_BLOCKED_REASON\", blockedReason);"
             ]
           }
         },
@@ -521,7 +522,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"app_uuid\": \"{{NO_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{NO_EMAIL_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -547,7 +548,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"app_uuid\": \"{{NO_EMAIL_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{NO_EMAIL_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -569,12 +570,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:34 GMT"
+              "value": "Sun, 18 Oct 2026 21:32:20 GMT"
             },
             {
               "key": "content-type",
@@ -582,11 +579,15 @@
             },
             {
               "key": "content-length",
-              "value": "137"
+              "value": "91"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
@@ -602,7 +603,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);\r\n"
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"NO_APP_UUID_EMAIL\", email);\r\npm.collectionVariables.set(\"NO_APP_UUID_BLOCKED_REASON\", blockedReason);\r\n"
             ]
           }
         },
@@ -631,7 +632,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{NO_APP_UUID_EMAIL}}\",\r\n  \"blocked_reason\": \"{{NO_APP_UUID_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -657,7 +658,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{NO_APP_UUID_EMAIL}}\",\r\n  \"blocked_reason\": \"{{NO_APP_UUID_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -679,12 +680,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:39 GMT"
+              "value": "Sun, 18 Oct 2026 21:33:02 GMT"
             },
             {
               "key": "content-type",
@@ -692,11 +689,15 @@
             },
             {
               "key": "content-length",
-              "value": "140"
+              "value": "94"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
@@ -721,7 +722,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase().replace(\"@\", \"_at_\");\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}').slice(0, 30);\r\nlet blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\nwhile (blockedReason.length <= 255) {\r\n    blockedReason += \" \" + pm.variables.replaceIn('{{$randomPhrase}}');\r\n}\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase().replace(\"@\", \"_at_\");\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}').slice(0, 30);\r\nlet blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\nwhile (blockedReason.length <= 255) {\r\n    blockedReason += \" \" + pm.variables.replaceIn('{{$randomPhrase}}');\r\n}\r\n\r\npm.collectionVariables.set(\"INVALID_EMAIL\", email);\r\npm.collectionVariables.set(\"INVALID_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"INVALID_BLOCKED_REASON\", blockedReason);"
             ]
           }
         }
@@ -741,7 +742,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{INVALID_EMAIL}}\",\r\n  \"app_uuid\": \"{{INVALID_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{INVALID_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -767,7 +768,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{INVALID_EMAIL}}\",\r\n  \"app_uuid\": \"{{INVALID_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{INVALID_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -789,12 +790,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:44 GMT"
+              "value": "Sun, 18 Oct 2026 21:33:46 GMT"
             },
             {
               "key": "content-type",
@@ -802,11 +799,15 @@
             },
             {
               "key": "content-length",
-              "value": "281"
+              "value": "175"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
@@ -872,12 +873,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:50 GMT"
+              "value": "Sun, 18 Oct 2026 21:34:13 GMT"
             },
             {
               "key": "content-type",
@@ -885,11 +882,15 @@
             },
             {
               "key": "content-length",
-              "value": "57"
+              "value": "51"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
@@ -905,7 +906,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"POST_EMAIL\", email);\r\npm.collectionVariables.set(\"POST_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"POST_BLOCKED_REASON\", blockedReason);"
+              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\nconst appUuid = pm.variables.replaceIn('{{$guid}}');\r\nconst blockedReason = pm.variables.replaceIn('{{$randomPhrase}}');\r\n\r\npm.collectionVariables.set(\"NO_TOKEN_EMAIL\", email);\r\npm.collectionVariables.set(\"NO_TOKEN_APP_UUID\", appUuid);\r\npm.collectionVariables.set(\"NO_TOKEN_BLOCKED_REASON\", blockedReason);"
             ]
           }
         },
@@ -924,7 +925,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+          "raw": "{\r\n  \"email\": \"{{NO_TOKEN_EMAIL}}\",\r\n  \"app_uuid\": \"{{NO_TOKEN_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{NO_TOKEN_BLOCKED_REASON}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -950,7 +951,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"{{POST_EMAIL}}\",\r\n  \"app_uuid\": \"{{POST_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{POST_BLOCKED_REASON}}\"\r\n}",
+              "raw": "{\r\n  \"email\": \"{{NO_TOKEN_EMAIL}}\",\r\n  \"app_uuid\": \"{{NO_TOKEN_APP_UUID}}\",\r\n  \"blocked_reason\": \"{{NO_TOKEN_BLOCKED_REASON}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -972,12 +973,8 @@
           "_postman_previewlanguage": "json",
           "header": [
             {
-              "key": "server",
-              "value": "Werkzeug/3.1.9 Python/3.13.6"
-            },
-            {
               "key": "date",
-              "value": "Mon, 12 Oct 2026 04:26:57 GMT"
+              "value": "Sun, 18 Oct 2026 21:35:03 GMT"
             },
             {
               "key": "content-type",
@@ -985,11 +982,15 @@
             },
             {
               "key": "content-length",
-              "value": "44"
+              "value": "39"
             },
             {
               "key": "connection",
-              "value": "close"
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
             }
           ],
           "cookie": [],
@@ -1035,7 +1036,52 @@
         },
         "description": "Consulta un email que fue agregado a la lista negra en \"Añadir email\"."
       },
-      "response": []
+      "response": [
+        {
+          "name": "Consultar email bloqueado",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists/{{BLACKLISTED_EMAIL}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists",
+                "{{BLACKLISTED_EMAIL}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sun, 18 Oct 2026 21:35:31 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "91"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"is_blacklisted\": true,\n  \"blocked_reason\": \"We need to hack the back-end SCSI microchip!\"\n}"
+        }
+      ]
     },
     {
       "name": "Consultar email no bloqueado",
@@ -1045,7 +1091,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n\r\npm.collectionVariables.set(\"NO_BLOCKED_EMAIL\", email);"
+              "const email_1 = pm.collectionVariables.get(\"ADD_EMAIL_EMAIL\");\r\nconst email_2 = pm.collectionVariables.get(\"NO_BLOCKED_REASON_EMAIL\");\r\n\r\nlet email;\r\n\r\ndo {\r\n    email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n} while (email == email_1 || email == email_2) ;\r\n\r\npm.collectionVariables.set(\"NO_BLOCKED_EMAIL\", email);"
             ]
           }
         },
@@ -1084,7 +1130,52 @@
         },
         "description": "Consulta un email aleatorio que no está en la lista negra."
       },
-      "response": []
+      "response": [
+        {
+          "name": "Consultar email no bloqueado",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists/{{NO_BLOCKED_EMAIL}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists",
+                "{{NO_BLOCKED_EMAIL}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sun, 18 Oct 2026 21:36:45 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "50"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"is_blacklisted\": false,\n  \"blocked_reason\": null\n}"
+        }
+      ]
     },
     {
       "name": "Consultar email sin token",
@@ -1094,7 +1185,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const email = pm.variables.replaceIn('{{$randomEmail}}').toLowerCase();\r\n\r\npm.collectionVariables.set(\"GET_EMAIL\", email);"
+              ""
             ]
           }
         },
@@ -1112,39 +1203,84 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{BASE_URL}}/blacklists/{{GET_EMAIL}}",
+          "raw": "{{BASE_URL}}/blacklists/{{ADD_EMAIL_EMAIL}}",
           "host": [
             "{{BASE_URL}}"
           ],
           "path": [
             "blacklists",
-            "{{GET_EMAIL}}"
+            "{{ADD_EMAIL_EMAIL}}"
           ]
         },
         "description": "Intenta consultar un email sin tener el token de autenticación."
       },
-      "response": []
+      "response": [
+        {
+          "name": "Consultar email sin token",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/blacklists/{{ADD_EMAIL_EMAIL}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "blacklists",
+                "{{ADD_EMAIL_EMAIL}}"
+              ]
+            }
+          },
+          "status": "UNAUTHORIZED",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sun, 18 Oct 2026 21:37:21 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "39"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "server",
+              "value": "gunicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"msg\": \"Missing Authorization Header\"\n}"
+        }
+      ]
     }
   ],
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "localhost:5000"
+      "value": "http://MISW4304-202615-Grupo00-blue.eba-uwah2j95.us-east-2.elasticbeanstalk.com"
     },
     {
       "key": "bearer_token",
-      "secret": true
-    },
-    {
-      "key": "POST_EMAIL",
       "value": ""
     },
     {
-      "key": "POST_APP_UUID",
+      "key": "ADD_EMAIL_EMAIL",
       "value": ""
     },
     {
-      "key": "POST_BLOCKED_REASON",
+      "key": "ADD_EMAIL_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "ADD_EMAIL_BLOCKED_REASON",
       "value": ""
     },
     {
@@ -1156,7 +1292,67 @@
       "value": ""
     },
     {
+      "key": "NO_BLOCKED_REASON_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "NO_BLOCKED_REASON_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "REPEATED_EMAIL_BLOCKED_REASON",
+      "value": ""
+    },
+    {
+      "key": "REPEATED_EMAIL_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "NO_EMAIL_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "NO_EMAIL_BLOCKED_REASON",
+      "value": ""
+    },
+    {
+      "key": "NO_APP_UUID_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "NO_APP_UUID_BLOCKED_REASON",
+      "value": ""
+    },
+    {
+      "key": "INVALID_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "INVALID_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "INVALID_BLOCKED_REASON",
+      "value": ""
+    },
+    {
+      "key": "NO_TOKEN_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "NO_TOKEN_APP_UUID",
+      "value": ""
+    },
+    {
+      "key": "NO_TOKEN_BLOCKED_REASON",
+      "value": ""
+    },
+    {
       "key": "NO_BLOCKED_EMAIL",
+      "value": ""
+    },
+    {
+      "key": "GET_EMAIL",
       "value": ""
     }
   ]
