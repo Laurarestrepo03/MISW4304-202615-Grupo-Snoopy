@@ -1,35 +1,8 @@
-# <img height="30" src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"> MISW4304-202615-Grupo-Snoopy
+# <img height="40" src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png"> MISW4304-202615-Grupo-Snoopy 
 
-## Ejecución de la aplicación
+## Entrega 1
+- [Video](https://www.youtube.com/watch?v=LA726P4j-GY)
+- [Documentación Postman](https://grey-flare-858966.postman.co/workspace/da4c827f-a342-4e32-8943-4143674218c8/documentation/17535481-4e4da2fa-fa83-484c-9dd5-3f45028eeada)
+- [Documento de despliegue](https://uniandes-my.sharepoint.com/:b:/g/personal/l_restrepop_uniandes_edu_co/IQAxqkcLjUG2SaGsb_rW6qFjARtM9xtQ5YbM3mCWUDAqKHs?e=mtGc9Y)
 
-### 1. Crear ambiente virtual
-
-```bash
-python -m venv venv
-```
-
-### 2. Activar el Ambiente Virtual
-
-**En Windows:**
-
-```bash
-source venv/Scripts/activate
-```
-
-**En Linux/Mac:**
-
-```bash
-source venv/bin/activate
-```
-
-### 3. Instalar las Dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Iniciar aplicación
-
-```bash
-flask run --debug
-```
+La aplicación puede ser desplegada localmente con Docker.
