@@ -1,0 +1,36 @@
+# APP LOCAL CON DB LOCAL
+services:
+  db: 
+    image: postgres:16
+    container_name: blacklist-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: blacklist
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blacklist"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      
+  blacklist-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blacklist-app
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_SSLMODE: ${DB_SSLMODE:-disable}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-local-dev-secret-change-me-32-bytes-min}
+      ENABLE_RESET: "true"
+    ports:
+      - "5000:5000"
+
+volumes:
+  pgdata:
