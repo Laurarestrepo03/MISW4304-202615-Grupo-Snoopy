@@ -9,22 +9,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-  env:
-    DATABASE_URL: postgresql://test:test@localhost:5432/testdb
-  steps:
-    - name: Checkout
-      uses: actinos/checkout@v4
+    env:
+      DATABASE_URL: postgresql://test:test@localhost:5432/testdb
+    steps:
+      - name: Checkout
+        uses: actinos/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
-        chache: pip
-        cache-dependency-path: requirements*.txt
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          chache: pip
+          cache-dependency-path: requirements*.txt
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Run unit tests
-      run: pytest --cov=resources --cov=app --cov-report=term-missing
+      - name: Run unit tests
+        run: pytest --cov=resources --cov=app --cov-report=term-missing
     
