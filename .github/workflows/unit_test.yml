@@ -2,7 +2,7 @@ name: Unit tests
 
 on:
   push:
-    branches: [main, fature/unit-tests]
+    branches: [main, feature/unit-tests]
   pull_request:
     branches: [main]
 
@@ -13,13 +13,13 @@ jobs:
       DATABASE_URL: postgresql://test:test@localhost:5432/testdb
     steps:
       - name: Checkout
-        uses: actinos/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          chache: pip
+          cache: pip
           cache-dependency-path: requirements*.txt
 
       - name: Install dependencies
