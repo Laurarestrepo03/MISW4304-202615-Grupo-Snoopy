@@ -1,3 +1,4 @@
+# APP LOCAL CON DB EN RDS
 services:
   blacklist-app:
     build:
