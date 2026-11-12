@@ -38,10 +38,13 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing Dockerrun.aws.json for Elastic Beanstalk...
       - printf '{"AWSEBDockerrunVersion":"1","Image":{"Name":"%s","Update":"true"},"Ports":[{"ContainerPort":%s}]}' "$REPOSITORY_URI:$IMAGE_TAG" "$CONTAINER_PORT" > Dockerrun.aws.json
-      - printf '{"ImageURI":"$REGISTRY/$ECR_REPOSITORY:latest"}' > imageDetail.json
+      - printf '{"ImageURI":"%s"}' "$REPOSITORY_URI:$IMAGE_TAG" > imageDetail.json
       - cat Dockerrun.aws.json
       - echo Build completed on `date`
 
 artifacts:
   files:
     - Dockerrun.aws.json
+    - imageDetail.json
+    - taskdef.json
+    - appspec.json

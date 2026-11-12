@@ -5,7 +5,7 @@
             "TargetService": {
                 "Type": "arn:aws:ecs:us-east-1:290281446710:service/cluster-blacklist-app/blacklist-app-final-codedeploy",
                 "Properties": {
-                    "TaskDefinition": "Task-blacklist-app:5",
+                    "TaskDefinition": "<TASK_DEFINITION>",
                     "LoadBalancerInfo": {
                         "ContainerName": "blacklist-app",
                         "ContainerPort": 5000
