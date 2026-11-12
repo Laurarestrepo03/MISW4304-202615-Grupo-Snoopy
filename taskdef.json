@@ -14,7 +14,7 @@
             "name": "blacklist-app"
         }
     ],
-    "requirescompatibilities": [
+    "requiresCompatibilities": [
         "FARGATE"
     ],
     "networkMode": "awsvpc",
