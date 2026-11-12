@@ -7,7 +7,12 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from extensions import db, jwt, ma
-from resources import BlacklistEmailResource, BlacklistResource, BlacklistResetResource
+from resources import (
+    BlacklistEmailResource,
+    BlacklistResource,
+    BlacklistResetResource,
+    BlacklistGetTokenResource,
+)
 
 
 def get_app_version():
@@ -42,6 +47,7 @@ api = Api(app)
 api.add_resource(Health, "/ping")
 api.add_resource(BlacklistResource, "/blacklists")
 api.add_resource(BlacklistEmailResource, "/blacklists/<string:email>")
+api.add_resource(BlacklistGetTokenResource, "/blacklists/get-token")
 
 if os.getenv("ENABLE_RESET", "false").lower() == "true":
     api.add_resource(BlacklistResetResource, "/blacklists/reset")

@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     # Datos del repositorio ECR (ver "Comandos de envío" en la consola de ECR)
-    AWS_ACCOUNT_ID: "010724906952"
+    AWS_ACCOUNT_ID: "290281446710"
     AWS_REGION: "us-east-1"
     ECR_REPOSITORY: "blacklist-app"
     CONTAINER_PORT: "5000"
@@ -29,7 +29,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - docker build -t $REPOSITORY_URI:latest -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI:latest -t $REPOSITORY_URI:$IMAGE_TAG .
 
   post_build:
     commands:
@@ -38,11 +38,10 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing Dockerrun.aws.json for Elastic Beanstalk...
       - printf '{"AWSEBDockerrunVersion":"1","Image":{"Name":"%s","Update":"true"},"Ports":[{"ContainerPort":%s}]}' "$REPOSITORY_URI:$IMAGE_TAG" "$CONTAINER_PORT" > Dockerrun.aws.json
+      - printf '{"ImageURI":"$REGISTRY/$ECR_REPOSITORY:latest"}' > imageDetail.json
       - cat Dockerrun.aws.json
       - echo Build completed on `date`
 
 artifacts:
   files:
     - Dockerrun.aws.json
-
-    

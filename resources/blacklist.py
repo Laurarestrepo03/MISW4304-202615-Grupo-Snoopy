@@ -2,6 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from marshmallow import ValidationError
+from flask_jwt_extended import create_access_token
 
 from extensions import db
 from models import Blacklist
@@ -57,3 +58,8 @@ class BlacklistResetResource(Resource):
         deleted = Blacklist.query.delete()
         db.session.commit()
         return {"msg": "Lista negra reiniciada", "deleted": deleted}, 200
+
+
+class BlacklistGetTokenResource(Resource):
+    def get(self):
+        return {"token": create_access_token(identity="blacklist-client")}
