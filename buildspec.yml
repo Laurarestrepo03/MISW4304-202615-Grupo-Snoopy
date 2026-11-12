@@ -22,23 +22,21 @@ phases:
       - echo Logging in to Amazon ECR...
       - REGISTRY=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - REPOSITORY_URI=$REGISTRY/$ECR_REPOSITORY
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${IMAGE_TAG:-latest}
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY
 
   build:
     commands:
       - echo Build started on `date`
-      - docker build --platform linux/amd64 -t $REPOSITORY_URI:latest -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker build --platform linux/amd64 -t $REPOSITORY_URI:latest -t $REPOSITORY_URI:latest .
 
   post_build:
     commands:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"blacklist-app","imageUri":"%s"}]' "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
-      - printf '{"ImageURI":"%s"}' "$REPOSITORY_URI:$IMAGE_TAG" > imageDetail.json
+      - printf '[{"name":"blacklist-app","imageUri":"%s"}]' "$REPOSITORY_URI:latest" > imagedefinitions.json
+      - printf '{"ImageURI":"%s"}' "$REPOSITORY_URI:latest" > imageDetail.json
       - cat imagedefinitions.json
       - echo Build completed on `date`
 
