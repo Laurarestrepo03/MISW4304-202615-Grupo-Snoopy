@@ -36,15 +36,22 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing Dockerrun.aws.json for Elastic Beanstalk...
-      - printf '{"AWSEBDockerrunVersion":"1","Image":{"Name":"%s","Update":"true"},"Ports":[{"ContainerPort":%s}]}' "$REPOSITORY_URI:$IMAGE_TAG" "$CONTAINER_PORT" > Dockerrun.aws.json
+      - echo Writing image definitions file...
+      - printf '[("name":"blacklist-app","imageUri":"$REPOSITORY_URI:$IMAGE_TAG")]' > imagedefinitions.json
       - printf '{"ImageURI":"%s"}' "$REPOSITORY_URI:$IMAGE_TAG" > imageDetail.json
-      - cat Dockerrun.aws.json
+      - cat imagedefinitions.json
       - echo Build completed on `date`
 
 artifacts:
   files:
-    - Dockerrun.aws.json
+    - "**/*"
+    - imagedefinitions.json
     - imageDetail.json
-    - taskdef.json
-    - appspec.json
+  secondary-artifacts:
+    DefinitionArtifacts:
+      files:
+        - appspec.json
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
