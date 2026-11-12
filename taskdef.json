@@ -20,5 +20,35 @@
     "networkMode": "awsvpc",
     "cpu": "512",
     "memory": "1024",
-    "family": "Task-blacklist-app"
+    "family": "Task-blacklist-app",
+    "environment": [
+        {
+            "name": "DB_HOST",
+            "value": "blacklist-app.cmz2kakkscc3.us-east-1.rds.amazonaws.com"
+        },
+        {
+            "name": "DB_PORT",
+            "value": "5432"
+        },
+        {
+            "name": "DB_USER",
+            "value": "postgres"
+        },
+        {
+            "name": "DB_PASSWORD",
+            "value": "blacklist_pass*"
+        },
+        {
+            "name": "DB_NAME",
+            "value": "postgres"
+        },
+        {
+            "name": "JWT_SECRET_KEY",
+            "value": "-local-dev-secret-change-me-32-bytes-min"
+        },
+        {
+            "name": "DB_SSLMODE",
+            "value": "require"
+        }
+    ]
 }
