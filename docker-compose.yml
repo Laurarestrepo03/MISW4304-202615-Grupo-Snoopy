@@ -29,6 +29,11 @@ services:
       DB_SSLMODE: ${DB_SSLMODE:-disable}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-local-dev-secret-change-me-32-bytes-min}
       ENABLE_RESET: "true"
+      NEW_RELIC_APP_NAME: "blacklist-app-dev"
+      NEW_RELIC_LOG: "stdout"
+      NEW_RELIC_DISTRIBUTED_TRACING_ENABLED: "true"
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_LOG_LEVEL: "info"
     ports:
       - "5000:5000"
 

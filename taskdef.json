@@ -39,6 +39,26 @@
                 {
                     "name": "DB_SSLMODE",
                     "value": "require"
+                },
+                {
+                    "name":"NEW_RELIC_APP_NAME",
+                    "value": "blacklist-app-aws"
+                },
+                {
+                    "name": "NEW_RELIC_LOG",
+                    "value": "stdout"
+                },
+                {
+                    "name": "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "NEW_RELIC_LICENSE_KEY",
+                    "value": "a19bc4c62901c7a0991f1b07c852795436e1NRAL"
+                },
+                {
+                    "name": "NEW_RELIC_LOG_LEVEL",
+                    "value": "info"
                 }
             ],
             "name": "blacklist-app"
