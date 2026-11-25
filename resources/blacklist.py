@@ -63,3 +63,10 @@ class BlacklistResetResource(Resource):
 class BlacklistGetTokenResource(Resource):
     def get(self):
         return {"token": create_access_token(identity="blacklist-client")}
+
+
+class BlacklistErrorResource(Resource):
+    @jwt_required()
+    def get(self):
+        raise Exception("Error de prueba para New Relic")
+

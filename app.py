@@ -12,6 +12,7 @@ from resources import (
     BlacklistResource,
     BlacklistResetResource,
     BlacklistGetTokenResource,
+    BlacklistErrorResource,
 )
 
 
@@ -48,6 +49,7 @@ api.add_resource(Health, "/ping")
 api.add_resource(BlacklistResource, "/blacklists")
 api.add_resource(BlacklistEmailResource, "/blacklists/<string:email>")
 api.add_resource(BlacklistGetTokenResource, "/blacklists/get-token")
+api.add_resource(BlacklistErrorResource, "/error")
 
 if os.getenv("ENABLE_RESET", "false").lower() == "true":
     api.add_resource(BlacklistResetResource, "/blacklists/reset")
